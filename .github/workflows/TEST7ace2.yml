@@ -10,7 +10,7 @@ on:
       FEIL:
         description: "配置文件"
         required: true
-        default: 'oneplus_ace2_v.xml'
+        default: 'oneplus_ace2_v'
 
       CPUD:
         description: "处理器代号"
