@@ -8,29 +8,22 @@ on:
         required: true
         default: sm8550
         options:
+          - sm7550
+          - sm7675
           - sm8450
           - sm8475
           - sm8550
           - sm8650
-          - sm7550
-          - sm7675
           - sm8750
-          
       FEIL:
         type: choice
         description: "配置文件"
         required: true
         default: oneplus_ace2pro_v
         options:
-          - oneplus_ace2pro_v
-          - oneplus12_v
-          - oneplus_13r
-          - oneplus_ace3_pro_v
-          - oneplus_ace5
-          - oneplus_pad2_v
+          - oneplus_nord_ce4_v
           - oneplus_ace_3v_v
           - oneplus_nord_4_v
-          - oneplus_nord_ce4_v
           - oneplus_10_pro_v
           - oneplus_10t_v
           - oneplus_11r_v
@@ -38,23 +31,28 @@ on:
           - oneplus_ace_pro_v
           - oneplus_11_v
           - oneplus_12r_v
+          - oneplus_ace2pro_v
           - oneplus_ace3_v
           - oneplus_open_v
+          - oneplus12_v
+          - oneplus_13r
+          - oneplus_ace3_pro_v
+          - oneplus_ace5
+          - oneplus_pad2_v
           - oneplus_13
           - oneplus_ace5_pro
-          
+          - GitHub有bug可能不显示最后一项,误使用此项
       CPUD:
         type: choice
         description: "处理器代号"
         required: true
         default: kalama
         options:
-          - kalama
-          - waipio
-          - pineapple
           - crow
+          - waipio
+          - kalama
+          - pineapple
           - sun
-          
       ANDROID_VERSION:
         type: choice
         description: "内核安卓版本"
@@ -65,7 +63,6 @@ on:
           - android13
           - android14
           - android15
-          
       KERNEL_VERSION:
         type: choice
         description: "内核版本"
@@ -76,7 +73,6 @@ on:
           - 5.15
           - 6.1
           - 6.6
-          
       BUILD_METHOD:
         type: choice
         description: "编译方式gki？perf？"
@@ -85,7 +81,6 @@ on:
         options:
           - gki
           - perf
-          
       SUSFS_CI:
         type: boolean
         description: "SUSFS模块下载是否调用CI？"
@@ -127,6 +122,18 @@ jobs:
         run: |
           sudo apt update && sudo apt upgrade -y
           sudo apt install -y python3 git curl
+
+      - name: Show selected inputs debug
+        run: |
+          echo "Selected CPU: ${{ github.event.inputs.CPU }}"
+          echo "Selected FEIL: ${{ github.event.inputs.FEIL }}"
+          echo "Selected CPUD: ${{ github.event.inputs.CPUD }}"
+          echo "Selected ANDROID_VERSION: ${{ github.event.inputs.ANDROID_VERSION }}"
+          echo "Selected KERNEL_VERSION: ${{ github.event.inputs.KERNEL_VERSION }}"
+          echo "Selected BUILD_METHOD: ${{ github.event.inputs.BUILD_METHOD }}"
+          echo "Selected SUSFS_CI: ${{ github.event.inputs.SUSFS_CI }}"
+          echo "Selected LZ4: ${{ github.event.inputs.LZ4 }}"
+          echo "Selected VFS: ${{ github.event.inputs.VFS }}"
 
       - name: Install repo tool
         run: |
