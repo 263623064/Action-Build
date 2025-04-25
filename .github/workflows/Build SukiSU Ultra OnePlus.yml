@@ -302,7 +302,7 @@ jobs:
               echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
             fi
-              sed -i 's/check_defconfig//g" ./common/build.config.gki
+              sed -i 's/check_defconfig//' ./common/build.config.gki
           fi
 
       - name: Build kernel
