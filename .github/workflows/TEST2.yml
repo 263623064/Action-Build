@@ -306,7 +306,7 @@ jobs:
             fi
             # Remove check_defconfig
             cp kernel_workspace/kernel_platform/out/msm-kernel-kalama-gki/gki_kernel/common/modules.order \
-       common/android/gki_aarch64_modules || true
+            common/android/gki_aarch64_modules || true
           fi
 
       - name: Build kernel
