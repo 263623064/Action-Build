@@ -275,6 +275,8 @@ jobs:
 
           # 添加 LZ4 Config
           if [ "${{ github.event.inputs.LZ4 }}" = "true" ]; then
+            sed -i 's/check_defconfig//' ./common/build.config.gki
+            echo "SKIP_VENDOR_MODULE_TEST=true" >> ./common/build.config.gki
           CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
 
             if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
@@ -301,8 +303,11 @@ jobs:
               echo "CONFIG_CRYPTO_LZ4K=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
-              # Remove check_defconfig
-              sed -i 's/check_defconfig//g" ./common/build.config.gki
+            fi
+            # Remove check_defconfig
+            if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
+            cp kernel_workspace/kernel_platform/out/msm-kernel-kalama-gki/gki_kernel/common/modules.order \
+            common/android/gki_aarch64_modules || true
             fi
           fi
 
