@@ -275,8 +275,6 @@ jobs:
 
           # 添加 LZ4 Config
           if [ "${{ github.event.inputs.LZ4 }}" = "true" ]; then
-            sed -i 's/check_defconfig//' ./common/build.config.gki
-            echo "SKIP_VENDOR_MODULE_TEST=true" >> ./common/build.config.gki
           CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
 
             if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
@@ -303,11 +301,8 @@ jobs:
               echo "CONFIG_CRYPTO_LZ4K=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
-            fi
-            # Remove check_defconfig
-            if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
-            cp kernel_workspace/kernel_platform/out/msm-kernel-kalama-gki/gki_kernel/common/modules.order \
-            common/android/gki_aarch64_modules || true
+              # Remove check_defconfig
+              sed -i 's/check_defconfig//' ./common/build.config.gki
             fi
           fi
 
@@ -316,6 +311,20 @@ jobs:
         run: |
           cd kernel_workspace
           ./kernel_platform/build_with_bazel.py -t ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
+
+      - name: Pre-fix GKI modules list for sm8550 + LZ4
+        if: ${{ github.event.inputs.CPU == 'sm8550' && github.event.inputs.lz4 == 'true' }}
+        run: |
+          MODULES_ORDER_PATH=kernel_workspace/kernel_platform/out/msm-kernel-kalama-gki/gki_kernel/common/modules.order
+          GKI_MODULE_LIST=kernel_workspace/kernel_platform/common/android/gki_aarch64_modules
+
+          # 提前创建文件夹和模拟 modules.order 内容（根据需要替换）
+          mkdir -p "$(dirname "$MODULES_ORDER_PATH")"
+          echo -e "mm/zsmalloc.ko\ndrivers/block/zram/zram.ko" > "$MODULES_ORDER_PATH"
+
+          # 将它提前复制到 GKI 模块清单位置
+          mkdir -p "$(dirname "$GKI_MODULE_LIST")"
+          cp "$MODULES_ORDER_PATH" "$GKI_MODULE_LIST"
           
       - name: Fallback build kernel
         if: ${{ github.event.inputs.CPU != 'sm8650' && github.event.inputs.CPU != 'sm7675' }}
