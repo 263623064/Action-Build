@@ -313,7 +313,7 @@ jobs:
           ./kernel_platform/build_with_bazel.py -t ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
 
       - name: Pre-fix GKI modules list for sm8550 + LZ4
-        if: ${{ github.event.inputs.CPU == 'sm8550' && github.event.inputs.lz4 == 'true' }}
+        if: ${{ github.event.inputs.CPU == 'sm8550' && github.event.inputs.LZ4 == 'true' }}
         run: |
           MODULES_ORDER_PATH=kernel_workspace/kernel_platform/out/msm-kernel-kalama-gki/gki_kernel/common/modules.order
           GKI_MODULE_LIST=kernel_workspace/kernel_platform/common/android/gki_aarch64_modules
