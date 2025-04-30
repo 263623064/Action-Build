@@ -1,0 +1,62 @@
+name: 清理工作流运行记录
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: '要检查的最多运行次数'
+        required: false
+        default: '20'
+      delete_failed:
+        description: '是否删除失败的运行记录？(true/false)'
+        required: false
+        default: 'true'
+      delete_success:
+        description: '是否删除成功的运行记录？(true/false)'
+        required: false
+        default: 'false'
+      delete_cancelled:
+        description: '是否删除已取消的运行记录？(true/false)'
+        required: false
+        default: 'false'
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 安装 GitHub CLI
+        run: sudo apt-get install gh -y
+
+      - name: 使用 GITHUB_TOKEN 进行认证
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: 删除运行记录
+        env:
+          REPO: ${{ github.repository }}
+          WORKFLOW_FILE: Build SukiSU Ultra OnePlus.yml
+          COUNT: ${{ inputs.count }}
+          DELETE_FAILED: ${{ inputs.delete_failed }}
+          DELETE_SUCCESS: ${{ inputs.delete_success }}
+          DELETE_CANCELLED: ${{ inputs.delete_cancelled }}
+        run: |
+          WORKFLOW_ID=$(gh api repos/$REPO/actions/workflows | jq -r '.workflows[] | select(.name=="Build SukiSU Ultra OnePlus") | .id')
+
+          if [ -z "$WORKFLOW_ID" ]; then
+            echo "未找到指定工作流！"
+            exit 1
+          fi
+
+          gh api "repos/$REPO/actions/workflows/$WORKFLOW_ID/runs?per_page=$COUNT" \
+          | jq -c '.workflow_runs[]' \
+          | while read run; do
+              ID=$(echo "$run" | jq -r '.id')
+              STATUS=$(echo "$run" | jq -r '.conclusion')
+
+              if [[ "$STATUS" == "failure" && "$DELETE_FAILED" != "true" ]]; then continue; fi
+              if [[ "$STATUS" == "success" && "$DELETE_SUCCESS" != "true" ]]; then continue; fi
+              if [[ "$STATUS" == "cancelled" && "$DELETE_CANCELLED" != "true" ]]; then continue; fi
+
+              echo "正在删除运行记录 ID: $ID (状态: $STATUS)"
+              gh api -X DELETE repos/$REPO/actions/runs/$ID
+          done
