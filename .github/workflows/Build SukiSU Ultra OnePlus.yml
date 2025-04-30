@@ -212,13 +212,6 @@ jobs:
           echo "vfs_patch完成"
           fi
 
-          if [ "${{ github.event.inputs.VFS }}" = "false" ]; then
-          cp ../../SukiSU_patch/hooks/ksu_hooks.patch ./
-          echo "正在打ksu官方补丁"
-          patch -p1 -F 3 < ksu_hooks.patch
-          echo "ksu_patch完成"
-          fi
-
           if [ "${{ github.event.inputs.LZ4 }}" = "true" ]; then
             cp ../../SukiSU_patch/other/lz4k_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4kd.patch ./
             echo "正在打lz4kd补丁"
@@ -301,8 +294,9 @@ jobs:
               echo "CONFIG_CRYPTO_LZ4K=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
               echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
-            fi
+              # Remove check_defconfig
               sed -i 's/check_defconfig//' ./common/build.config.gki
+            fi
           fi
 
       - name: Build kernel
@@ -314,11 +308,8 @@ jobs:
       - name: Fallback build kernel
         if: ${{ github.event.inputs.CPU != 'sm8650' && github.event.inputs.CPU != 'sm7675' }}
         run: |
-          cd kernel_workspace
-          LTO=thin ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
-          echo "Copying modules.order to gki_aarch64_modules..."
-          cp -v -f kernel_platform/out/msm-kernel-kalama-gki/gki_kernel/common/modules.order kernel_platform/common/android/gki_aarch64_modules
-          cat kernel_platform/common/android/gki_aarch64_modules
+         cd kernel_workspace
+         LTO=thin ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
 
       - name: Make AnyKernel3
         run: |
