@@ -220,7 +220,7 @@ jobs:
           fi
 
       # 配置信息
-            - name: Add SUSFS Configuration Settings
+      - name: Add SUSFS Configuration Settings
         run: |
           cd kernel_workspace/kernel_platform
           CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
