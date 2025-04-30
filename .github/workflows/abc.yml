@@ -47,8 +47,10 @@ jobs:
           WORKFLOW_NAME: ${{ inputs.workflow_name }}
         run: |
           # 获取指定工作流的 ID
-          WORKFLOW_ID=$(gh api repos/$REPO/actions/workflows \
-            | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
+          WORKFLOW_API_RESPONSE=$(gh api repos/$REPO/actions/workflows)
+          echo "工作流 API 响应: $WORKFLOW_API_RESPONSE"
+          
+          WORKFLOW_ID=$(echo "$WORKFLOW_API_RESPONSE" | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
 
           if [ -z "$WORKFLOW_ID" ]; then
             echo "未找到指定工作流！"
@@ -56,8 +58,10 @@ jobs:
           fi
 
           # 删除运行记录
-          gh api "repos/$REPO/actions/workflows/$WORKFLOW_ID/runs?per_page=$COUNT" \
-          | jq -c '.workflow_runs[]' \
+          RUNS_API_RESPONSE=$(gh api "repos/$REPO/actions/workflows/$WORKFLOW_ID/runs?per_page=$COUNT")
+          echo "运行记录 API 响应: $RUNS_API_RESPONSE"
+          
+          echo "$RUNS_API_RESPONSE" | jq -c '.workflow_runs[]' \
           | while read run; do
               ID=$(echo "$run" | jq -r '.id')
               STATUS=$(echo "$run" | jq -r '.conclusion')
