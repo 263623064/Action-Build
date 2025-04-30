@@ -3,6 +3,9 @@ name: 清理工作流运行记录
 on:
   workflow_dispatch:
     inputs:
+      repo:
+        description: '要清理的仓库（格式：用户名/仓库名）'
+        required: true
       count:
         description: '要检查的最多运行次数'
         required: false
@@ -19,6 +22,9 @@ on:
         description: '是否删除已取消的运行记录？(true/false)'
         required: false
         default: 'false'
+      workflow_name:
+        description: '要清理的工作流名称'
+        required: true
 
 jobs:
   cleanup:
@@ -31,28 +37,32 @@ jobs:
       - name: 使用 GITHUB_TOKEN 进行认证
         run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
-      - name: 删除运行记录
+      - name: 获取工作流 ID 和删除运行记录
         env:
-          REPO: ${{ github.repository }}
-          WORKFLOW_FILE: Build SukiSU Ultra OnePlus.yml
+          REPO: ${{ inputs.repo }}
           COUNT: ${{ inputs.count }}
           DELETE_FAILED: ${{ inputs.delete_failed }}
           DELETE_SUCCESS: ${{ inputs.delete_success }}
           DELETE_CANCELLED: ${{ inputs.delete_cancelled }}
+          WORKFLOW_NAME: ${{ inputs.workflow_name }}
         run: |
-          WORKFLOW_ID=$(gh api repos/$REPO/actions/workflows | jq -r '.workflows[] | select(.name=="Build SukiSU Ultra OnePlus") | .id')
+          # 获取指定工作流的 ID
+          WORKFLOW_ID=$(gh api repos/$REPO/actions/workflows \
+            | jq -r ".workflows[] | select(.name == \"$WORKFLOW_NAME\") | .id")
 
           if [ -z "$WORKFLOW_ID" ]; then
             echo "未找到指定工作流！"
             exit 1
           fi
 
+          # 删除运行记录
           gh api "repos/$REPO/actions/workflows/$WORKFLOW_ID/runs?per_page=$COUNT" \
           | jq -c '.workflow_runs[]' \
           | while read run; do
               ID=$(echo "$run" | jq -r '.id')
               STATUS=$(echo "$run" | jq -r '.conclusion')
 
+              # 根据用户输入的条件决定是否删除该记录
               if [[ "$STATUS" == "failure" && "$DELETE_FAILED" != "true" ]]; then continue; fi
               if [[ "$STATUS" == "success" && "$DELETE_SUCCESS" != "true" ]]; then continue; fi
               if [[ "$STATUS" == "cancelled" && "$DELETE_CANCELLED" != "true" ]]; then continue; fi
