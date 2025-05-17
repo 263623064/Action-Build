@@ -207,14 +207,14 @@ jobs:
               sed -i '/echo "\$res"/d' "$path"
               cat << 'EOF' >> "$path"
 
-      # Append random suffix if SUFFIX is not set
-      if [ -z "$KERNELSUFFIX" ]; then
-        RANDOM_DIGIT=$((RANDOM % 11))
-        RANDOM_HASH=$(hexdump -n 7 -e '7/1 "%02x"' /dev/urandom)
-        res="${res:+$res-}$RANDOM_DIG-o-g$RANDOM_HASH"
-      fi
-      echo "$res"
-      EOF
+              # Append random suffix if SUFFIX is not set
+              if [ -z "$KERNELSUFFIX" ]; then
+              RANDOM_DIGIT=$((RANDOM % 11))
+              RANDOM_HASH=$(hexdump -n 7 -e '7/1 "%02x"' /dev/urandom)
+              res="${res:+$res-}$RANDOM_DIG-o-g$RANDOM_HASH"
+              fi
+              echo "$res"
+          EOF
           done
           git add -A
           git commit -m "Fix: inject working random suffix when SUFFIX is not set"
