@@ -188,7 +188,7 @@ jobs:
           git add -A
           git commit -m "Clean git describe suffix and append custom suffix: ${{ github.event.inputs.SUFFIX }}"
 
-      # 自动生成随机后缀（仅在 SUFFIX 未设置时生效）
+      # 自动生成随机后缀（仅在 SUFFIX 未设置时生效）*
       - name: Generate random kernel suffix if SUFFIX is empty
         if: ${{ github.event.inputs.SUFFIX == '' }}
         run: |
@@ -204,8 +204,8 @@ jobs:
       if [ -z "$KERNELSUFFIX" ]; then\n\
         RANDOM_DIGIT=$((RANDOM % 11))\n\
         RANDOM_HASH=$(hexdump -n 4 -e '\''4/1 "%02x"'\'' /dev/urandom)\n\
-       res="$res-$RANDOM_DIG-o-g$RANDOM_HASH"\n\
-fi' "$path"
+        res="$res-$RANDOM_DIG-o-g$RANDOM_HASH"\n\
+      fi' "$path"
 
           done
 
