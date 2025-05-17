@@ -16,7 +16,7 @@
 # 更新日志:
 - 允许自定义内核后缀  <**`beta`**  
 - KPM 默认开启，不再可关闭  
-- 支持在 `ak3.zip` 中标明使用源码对应的 `Android` 版本号，例如：
+- 支持在 `ak3.zip` 中标明使用源码对应的 `Android` 版本号
 ```
 AnyKernel3_SukiSUUltra_12866_oneplus_ace2pro_Android15_KPM_VFS.zip
 ```
