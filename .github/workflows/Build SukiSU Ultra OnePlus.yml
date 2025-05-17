@@ -210,8 +210,7 @@ jobs:
 
             # 替换 echo "$res" 行，追加随机后缀
             sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path"
-    done
-
+          done
           git add -A
           git commit -m "Fix: inject random suffix when SUFFIX is not set"
 
