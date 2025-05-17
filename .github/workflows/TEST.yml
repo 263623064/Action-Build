@@ -217,7 +217,7 @@ jobs:
                 res="${res:+$res-}$RANDOM_DIGIT-o-g$RANDOM_HASH"
               fi
               echo "$res"
-        EOF
+          EOF
           done
 
           git add -A
