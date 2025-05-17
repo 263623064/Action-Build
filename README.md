@@ -17,9 +17,9 @@
 - **『beta』：** 允许自定义内核后缀  
 - KPM 默认开启，不再可关闭  
 - 支持在 `ak3.zip` 中标明使用源码对应的 `Android` 版本号，例如：
-```
+`
 AnyKernel3_SukiSUUltra_12866_oneplus_ace2pro_Android15_KPM_VFS.zip
-```
+`
 - 新增 `dir4`、`dir5` 路径用于支持 `sm8750` 和部分机型开启 ZRAM 后的新路径（比如 `ace2p`、`13T`）  
 - 添加 `zram` 模块的 `LZ4K` 压缩算法支持  
 - 移除配置文件后缀可能存在的 `_v` 或 `_u`  
