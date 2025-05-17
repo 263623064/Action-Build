@@ -1,4 +1,4 @@
-name: Build OnePlus_SukiSU Ultra All
+name: Build All
 on:
   workflow_dispatch:
     inputs:
@@ -191,21 +191,29 @@ jobs:
       # 自动生成随机后缀（仅在 SUFFIX 未设置时生效）*
       - name: Generate random kernel suffix if SUFFIX is empty
         if: ${{ github.event.inputs.SUFFIX == '' }}
+        shell: bash
         run: |
           cd kernel_workspace
+
+             # 生成随机后缀
+             RANDOM_DIGIT=$(od -An -N1 -tu1 < /dev/urandom | tr -d '[:space:]' | awk '{print $1 % 11}')
+             RANDOM_HASH=$(od -An -N7 -tx1 /dev/urandom | tr -d ' \n')
+             RANDOM_SUFFIX="${RANDOM_DIGIT}-o-g${RANDOM_HASH}"
+
           for path in \
             kernel_platform/common/scripts/setlocalversion \
             kernel_platform/msm-kernel/scripts/setlocalversion \
             kernel_platform/external/dtc/scripts/setlocalversion; do
-              sed -i '/^res=/a\
-# Auto-append random suffix if KERNELSUFFIX not set\n\
-              if [ -z "$KERNELSUFFIX" ]; then\n\
-              RANDOM_DIGIT=$((RANDOM % 10))\n\
-              RANDOM_HASH=$(hexdump -n 4 -e '\''4/1 "%02x"'\'' /dev/urandom)\n\  res="$res-$RANDOM_DIGIT-o-g$RANDOM_HASH"\n\
-fi' "$path"
-         done
-         git add -A
-         git commit -m "Inject dynamic random suffix logic if SUFFIX not set"
+
+              # 清除已有 git describe 后缀（如 -8-o-gabcdef）
+              sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-fA-F]{7,}//g'\'')' "$path"
+
+              # 替换 echo "$res" 行，追加随机后缀
+              sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path"
+    done
+
+          git add -A
+          git commit -m "Fix: inject random suffix when SUFFIX is not set"
 
       # 添加 SukiSU Ultra
       - name: Add KernelSU-SukiSU Ultra
