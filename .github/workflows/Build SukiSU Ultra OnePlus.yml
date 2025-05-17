@@ -184,7 +184,7 @@ jobs:
             kernel_platform/external/dtc/scripts/setlocalversion; do
               sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-f]{7,}//'\'')' "$path"
               sed -i "\$s|echo \"\\\$res\"|echo \"\$res-${{ github.event.inputs.SUFFIX }}\"|" "$path"
-        done
+          done
           git add -A
           git commit -m "Clean git describe suffix and append custom suffix: ${{ github.event.inputs.SUFFIX }}"
 
@@ -205,10 +205,8 @@ jobs:
         RANDOM_DIGIT=$((RANDOM % 11))\n\
         RANDOM_HASH=$(hexdump -n 4 -e '\''4/1 "%02x"'\'' /dev/urandom)\n\
         res="$res-$RANDOM_DIG-o-g$RANDOM_HASH"\n\
-      fi' "$path"
-
+fi' "$path"
           done
-
           git add -A
           git commit -m "Inject dynamic random suffix logic if SUFFIX not set"
 
