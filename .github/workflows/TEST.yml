@@ -1,4 +1,4 @@
-name: Build OnePlus_SukiSU Ultra All
+name: Build TEST
 on:
   workflow_dispatch:
     inputs:
@@ -191,6 +191,7 @@ jobs:
       # 自动生成随机后缀（仅在 SUFFIX 未设置时生效）*
       - name: Generate random kernel suffix if SUFFIX is empty
         if: ${{ github.event.inputs.SUFFIX == '' }}
+        shell: bash
         env:
           KERNELSUFFIX: ${{ github.event.inputs.SUFFIX }}
         run: |
@@ -200,22 +201,27 @@ jobs:
             kernel_platform/msm-kernel/scripts/setlocalversion \
             kernel_platform/external/dtc/scripts/setlocalversion; do
 
-            # 清除旧后缀
-            sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-f]{7,}//'\'')' "$path"
-            sed -i '/echo "\$res"/d' "$path"
+              # 清除默认 git 后缀
+              sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-f]{7,}//'\'')' "$path"
 
-              # 添加随机后缀
-              echo '# Append random suffix if SUFFIX is not set' >> "$path"
-              echo 'if [ -z "$KERNELSUFFIX" ]; then' >> "$path"
-              echo '  RANDOM_DIGIT=$((RANDOM % 11))' >> "$path"
-              echo '  RANDOM_HASH=$(hexdump -n 7 -e '\''7/1 "%02x"'\'' /dev/urandom)' >> "$path"
-              echo '  res="-$RANDOM_DIG-o-g$RANDOM_HASH"' >> "$path"
-              echo 'fi' >> "$path"
-              echo 'echo "$res"' >> "$path"
+              # 删除原来的 echo "$res"
+              sed -i '/echo "\$res"/d' "$path"
+
+              cat << 'EOF' >> "$path"
+
+              # Append random suffix if SUFFIX is not set
+              if [ -z "$KERNELSUFFIX" ]; then
+                RANDOM_DIGIT=$(od -An -N1 -tu1 < /dev/urandom | tr -d '[:space:]' | awk '{print $1 % 11}')
+                RANDOM_HASH=$(od -An -N7 -tx1 /dev/urandom | tr -d ' \n')
+                res="${res%-}"  # 去掉末尾多余的 -
+                res="${res:+$res-}$RANDOM_DIGIT-o-g$RANDOM_HASH"
+              fi
+              echo "$res"
+        EOF
           done
 
           git add -A
-          git commit -m "Add random suffix when SUFFIX not set"
+          git commit -m "Fix: inject working random suffix when SUFFIX is not set"
 
       # 添加 SukiSU Ultra
       - name: Add KernelSU-SukiSU Ultra
