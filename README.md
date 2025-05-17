@@ -6,7 +6,7 @@
 [![Releases](https://img.shields.io/badge/GitHub-Releases-181717?logo=github&logoColor=white&style=flat-square)](https://github.com/Numbersf/Action-Build/releases)
  
 # Action-Build
-**```Build OnePlus SukiSU Ultra KPM Kernel```**
+**```beta```**
  
 # 公告
 部分设备的``lz4kd``存在问题,尝试修复中,**跑不出来请先不要启用``lz4``**
