@@ -205,11 +205,11 @@ jobs:
             kernel_platform/msm-kernel/scripts/setlocalversion \
             kernel_platform/external/dtc/scripts/setlocalversion; do
 
-              # 清除已有 git describe 后缀（如 -8-o-gabcdef）
-              sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-fA-F]{7,}//g'\'')' "$path"
+            # 清除已有 git describe 后缀（如 -8-o-gabcdef）
+            sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-fA-F]{7,}//g'\'')' "$path"
 
-              # 替换 echo "$res" 行，追加随机后缀
-              sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path"
+            # 替换 echo "$res" 行，追加随机后缀
+            sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path"
     done
 
           git add -A
