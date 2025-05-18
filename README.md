@@ -17,7 +17,7 @@
  
 # 更新日志
 --暂时性修复`OnePlus Ace5Pro、OnePlus 13`跑不出来的问题  
---允许自定义内核后缀  <**`beta`**  
+--允许自定义内核后缀  <- **`beta`**  
 ```
 1.当自定义内核后缀为空时,使用随机字符串,不再是默认的“x.xx.xxx-androidxx-8-o-g3b1e97b8b29f”
 2.当自定义启用时,修改内核为“x.xx.xxx-androidxx-自定义内容”,同时也不再保留androidxx-8-o-g3b1e97b8b29f
