@@ -6,11 +6,17 @@ on:
       repo:
         description: '清理的仓库(格式:用户名/仓库名)'
         required: true
-        default: '263623064/Action-Build'
+        default: 'Numbersf/Action-Build'
       workflow_name:
+        type: choice
         description: '清理的工作流名称'
         required: true
         default: 'Build OnePlus_SukiSU Ultra All'
+        options:
+          - Build OnePlus_SukiSU Ultra All
+          - Build TEST
+          - Build TEST2
+          - 
       count:
         description: '最多清理的运行次数'
         required: false
