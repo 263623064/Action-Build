@@ -16,7 +16,7 @@ Special handling is required for `OnePlus Ace5Pro (ColorOS)` and `OnePlus 13 (Co
 Remember to install the module with **volume down**.
  
 # Changelog
--- Temporarily fixed the build issue for `OnePlus Ace5Pro` and `OnePlus 13` [@reigadegr](https://github.com/reigadegr) 
+-- Temporarily fixed the build issue for `OnePlus Ace5Pro` and `OnePlus 13` [@reigadegr](https://github.com/reigadegr)
 -- Allow custom kernel suffix  <- **`beta`**
 ```
 1. When the custom kernel suffix is empty, a random string is used instead of the default “x.xx.xxx-androidxx-8-o-g3b1e97b8b29f”
