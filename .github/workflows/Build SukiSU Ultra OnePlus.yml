@@ -457,7 +457,7 @@ jobs:
       - name: Apply patch_linux and replace Image
         run: |
           cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist
-          curl -LO https://raw.githubusercontent.com/Numbersf/Action-Build/main/patch_linux
+          curl -LO --retry 5 --retry-delay 2 https://raw.githubusercontent.com/Numbersf/Action-Build/main/patch_linux
           chmod +x patch_linux
           ./patch_linux
           rm -f Image
@@ -502,18 +502,17 @@ jobs:
           xml=".repo/manifests/${feil}.xml"
 
           if [ -f "$xml" ]; then
-           # 提取第一个匹配样式的 revision 值
-           revision=$(grep -oP 'revision="\Koneplus/[^"]+"' "$xml" | head -n1 || true)
-            if [[ "$revision" =~ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-              version="${BASH_REMATCH[1]}"
-              clean_feil="${feil}_Android${version}"
+            # 提取第一个包含 Android 版本号的 revision 值
+            revision=$(grep -oP 'revision="\K[^"]+' "$xml" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
+            if [ -n "$revision" ]; then
+              clean_feil="${feil}_Android${revision}"
             else
               clean_feil="${feil}_AndroidUnknown"
             fi
           else
             clean_feil="${feil}_AndroidUnknown"
           fi
-          echo "value=$clean_feil" >> $GITHUB_OUTPUT
+          echo "value=$clean_feil" >> "$GITHUB_OUTPUT"
 
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
