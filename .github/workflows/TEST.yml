@@ -30,6 +30,8 @@ on:
           - oneplus_ace2_v
           - oneplus_ace_pro_v
           - oneplus_11_v
+          - oneplus_11_u
+          - oneplus_11_t
           - oneplus_12r_v
           - oneplus_ace2pro_v
           - oneplus_ace3_v
@@ -500,10 +502,13 @@ jobs:
           xml=".repo/manifests/${feil}.xml"
 
           if [ -f "$xml" ]; then
-           # 提取第一个匹配样式的 revision 值
-           revision=$(grep -oP 'revision="\Koneplus/[^"]+"' "$xml" | head -n1 || true)
-            if [[ "$revision" =~ ([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
-              version="${BASH_REMATCH[0]}"
+            # 提取所有 revision="..." 的值
+            revisions=$(grep -oP 'revision="\K[^"]+' "$xml")
+
+            # 从 revision 中提取 _X.Y.Z_ 样式的 Android 版本
+            version=$(echo "$revisions" | grep -oP '_\K[0-9]+\.[0-9]+\.[0-9]+(?=_)' | head -n1)
+
+            if [ -n "$version" ]; then
               clean_feil="${feil}_Android${version}"
             else
               clean_feil="${feil}_AndroidUnknown"
@@ -511,6 +516,7 @@ jobs:
           else
             clean_feil="${feil}_AndroidUnknown"
           fi
+
           echo "value=$clean_feil" >> $GITHUB_OUTPUT
 
       - name: Upload AnyKernel3
