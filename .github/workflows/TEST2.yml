@@ -457,7 +457,7 @@ jobs:
       - name: Apply patch_linux and replace Image
         run: |
           cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist
-          curl -LO https://raw.githubusercontent.com/Numbersf/Action-Build/main/patch_linux
+          curl -LO --retry 5 --retry-delay 2 https://raw.githubusercontent.com/Numbersf/Action-Build/main/patch_linux
           chmod +x patch_linux
           ./patch_linux
           rm -f Image
@@ -502,17 +502,28 @@ jobs:
           xml=".repo/manifests/${feil}.xml"
 
           if [ -f "$xml" ]; then
-           # 提取第一个包含 Android 版本号的 revision 值
-           revision=$(grep -oP 'revision="\K[^"]+' "$xml" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
-            if [ -n "$revision" ]; then
-              clean_feil="${feil}_Android${revision}"
+            echo "Found manifest file: $xml"
+            # 提取所有 revision="..." 的值
+            revisions=$(grep -oP 'revision="\K[^"]+' "$xml")
+            echo "Revisions found:"
+            echo "$revisions"
+
+            # 从 revision 中提取 _X.Y.Z_ 样式的 Android 版本
+            version=$(echo "$revisions" | grep -oP '_\K[0-9]+\.[0-9]+\.[0-9]+(?=_)' | head -n1)
+            echo "Extracted Android version: $version"
+
+            if [ -n "$version" ]; then
+              clean_feil="${feil}_Android${version}"
             else
               clean_feil="${feil}_AndroidUnknown"
             fi
           else
+            echo "Manifest file not found: $xml"
             clean_feil="${feil}_AndroidUnknown"
           fi
-          echo "value=$clean_feil" >> "$GITHUB_OUTPUT"
+
+          echo "Final clean_feil: $clean_feil"
+          echo "value=$clean_feil" >> $GITHUB_OUTPUT
 
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
