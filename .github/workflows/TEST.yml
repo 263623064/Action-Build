@@ -497,13 +497,13 @@ jobs:
         id: feil_clean
         run: |
           feil="${{ github.event.inputs.FEIL }}"
-          xml="${feil}.xml"
+          xml=".repo/manifests/${feil}.xml"
 
-          # 获取第6行中 revision 属性的完整版本号
-          if [ -f ".repo/manifests/${xml}" ]; then
-            line=$(sed -n '6p' ".repo/manifests/${xml}")
-            if [[ "$line" =~ _v_([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-              version="${BASH_REMATCH[1]}"
+          if [ -f "$xml" ]; then
+           # 提取第一个匹配样式的 revision 值
+           revision=$(grep -oP 'revision="\Koneplus/[^"]+"' "$xml" | head -n1 || true)
+            if [[ "$revision" =~ ([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
+              version="${BASH_REMATCH[0]}"
               clean_feil="${feil}_Android${version}"
             else
               clean_feil="${feil}_AndroidUnknown"
