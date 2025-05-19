@@ -40,5 +40,5 @@ AnyKernel3_SukiSUUltra_12896_oneplus_11_Android14.1.0_KPM_VFS.zip
 -- Optimized the build scheme for `sm8750` and `sm7675`.  
 -- Fixed the version number error.  
 -- New `dir3` path added to support `sm8475` (such as `ace2`).  
--- Supports automatic download of the latest `CI/Release` `susfs` module and uses `ksud` for installation.  
+-- Supports automatic download of the latest `CI/Release` `susfs` module and uses `ksud` for installation.
 -- Supports `KPM` (copy without modifications) and `VFS HOOK` (optional).
