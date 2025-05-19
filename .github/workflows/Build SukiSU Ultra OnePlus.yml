@@ -30,8 +30,6 @@ on:
           - oneplus_ace2_v
           - oneplus_ace_pro_v
           - oneplus_11_v
-          - oneplus_11_u
-          - oneplus_11_t
           - oneplus_12r_v
           - oneplus_ace2pro_v
           - oneplus_ace3_v
@@ -385,13 +383,13 @@ jobs:
           fi
 
       - name: Build kernel
-        if: ${{ github.event.inputs.CPU == 'sm8650' || github.event.inputs.CPU == 'sm7675' }}
+        if: ${{ contains('sm8650 sm7675 sm8750', github.event.inputs.CPU) }}
         run: |
           cd kernel_workspace
-          ./kernel_platform/build_with_bazel.py -t ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
+          tools/bazel run --config=fast --config=stamp --lto=thin //common:kernel_aarch64_dist -- --dist_dir=dist
           
       - name: Fallback build kernel
-        if: ${{ github.event.inputs.CPU != 'sm8650' && github.event.inputs.CPU != 'sm7675' }}
+        if: ${{ !contains('sm8650 sm7675 sm8750', github.event.inputs.CPU) }}
         run: |
          cd kernel_workspace
          LTO=thin SYSTEM_DLKM_RE_SIGN=0 BUILD_SYSTEM_DLKM=0 KMI_SYMBOL_LIST_STRICT_MODE=0 ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
@@ -457,7 +455,7 @@ jobs:
       - name: Apply patch_linux and replace Image
         run: |
           cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist
-          curl -LO --retry 5 --retry-delay 2 https://raw.githubusercontent.com/Numbersf/Action-Build/main/patch_linux
+          curl -LO --retry 5 --retry-delay 2 --retry-connrefused https://raw.githubusercontent.com/Numbersf/Action-Build/main/patch_linux
           chmod +x patch_linux
           ./patch_linux
           rm -f Image
@@ -499,20 +497,50 @@ jobs:
         id: feil_clean
         run: |
           feil="${{ github.event.inputs.FEIL }}"
+          cpu="${{ github.event.inputs.CPU }}"
           xml=".repo/manifests/${feil}.xml"
 
-          if [ -f "$xml" ]; then
-            # 提取第一个包含 Android 版本号的 revision 值
-            revision=$(grep -oP 'revision="\K[^"]+' "$xml" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
-            if [ -n "$revision" ]; then
-              clean_feil="${feil}_Android${revision}"
+          if [ ! -f "$xml" ]; then
+            echo "Manifest $xml not found, attempting to download from branch oneplus/$cpu..."
+            mkdir -p .repo/manifests
+            git clone --depth=1 --branch oneplus/$cpu https://github.com/OnePlusOSS/kernel_manifest.git repo_tmp || {
+              echo "Failed to clone branch oneplus/$cpu"
+              echo "value=${feil}_AndroidUnknown" >> "$GITHUB_OUTPUT"
+              exit 0
+            }
+
+            if [ -f "repo_tmp/${feil}.xml" ]; then
+              mv "repo_tmp/${feil}.xml" "$xml"
             else
-              clean_feil="${feil}_AndroidUnknown"
+              echo "Manifest file ${feil}.xml not found in branch oneplus/$cpu"
+              echo "value=${feil}_AndroidUnknown" >> "$GITHUB_OUTPUT"
+              rm -rf repo_tmp
+              exit 0
+            fi
+            rm -rf repo_tmp
+          fi
+
+          echo "Manifest $xml found."
+
+          # 去掉末尾的 _x（只删一次）
+          feil_base=$(echo "$feil" | sed -E 's/_[a-z]$//')
+
+          # 提取 revision 并解析 Android 版本
+          revision_full=$(grep -oP '<project[^>]*name="android_kernel[^"]*"[^>]*revision="\K[^"]+' "$xml" | head -n1 || true)
+
+          if [ -n "$revision_full" ]; then
+            android_ver=$(echo "$revision_full" | grep -oP '_v?_?\K([0-9]+\.[0-9]+\.[0-9]+)' || true)
+            if [ -n "$android_ver" ]; then
+              clean_feil="${feil_base}_Android${android_ver}"
+            else
+              clean_feil="${feil_base}_AndroidUnknown"
             fi
           else
-            clean_feil="${feil}_AndroidUnknown"
+            clean_feil="${feil_base}_AndroidUnknown"
           fi
+
           echo "value=$clean_feil" >> "$GITHUB_OUTPUT"
+
 
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
