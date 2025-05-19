@@ -468,4 +468,70 @@ jobs:
       - name: Download Latest SUSFS Module from CI
         if: ${{ github.event.inputs.SUSFS_CI == 'true' }}
         run: |
-          LATEST_RUN_ID=$(curl -s 
+          LATEST_RUN_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/sidex15/susfs4ksu-module/actions/runs?status=success" | \
+            jq -r '.workflow_runs[] | select(.head_branch == "v1.5.2+") | .id' | head -n 1)
+
+          if [ -z "$LATEST_RUN_ID" ]; then
+            echo "No successful run found for branch v1.5.2+"
+            exit 1
+          fi
+
+          ARTIFACT_URL=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/sidex15/susfs4ksu-module/actions/runs/$LATEST_RUN_ID/artifacts" | jq -r '.artifacts[0].archive_download_url')
+
+          curl -L -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -o ksu_module_susfs_1.5.2+_CI.zip "$ARTIFACT_URL"
+          cp ksu_module_susfs_1.5.2+_CI.zip ./AnyKernel3/
+
+      # 下载 SUSFS 模块（Release）
+      - name: Download Latest SUSFS Module from Release
+        if: ${{ github.event.inputs.SUSFS_CI == 'false' }}
+        run: |
+          wget -O ksu_module_susfs_1.5.2+_Release.zip https://github.com/sidex15/ksu_module_susfs/releases/latest/download/ksu_module_susfs_1.5.2+.zip
+          cp ksu_module_susfs_1.5.2+_Release.zip ./AnyKernel3/
+
+      - name: Set zip suffix
+        id: suffix
+        run: |
+          echo "value=${{ github.event.inputs.VFS == 'true' && '_VFS' || '' }}${{ github.event.inputs.ZRAM == 'true' && '_LZ4KD' || '' }}" >> $GITHUB_OUTPUT
+
+      - name: Auto map FEIL to Android version by manifest
+        id: feil_clean
+        run: |
+          feil="${{ github.event.inputs.FEIL }}"
+          xml=".repo/manifests/${feil}.xml"
+
+          if [ ! -f "$xml" ]; then
+            echo "Manifest $xml not found, downloading..."
+            mkdir -p .repo/manifests
+            # 这里用git拉单个manifest文件示例（你也可以用repo init同步）
+            git clone --depth=1 --branch main https://github.com/OnePlusOSS/kernel_manifest.git repo_tmp
+            if [ -f "repo_tmp/${feil}.xml" ]; then
+              mv "repo_tmp/${feil}.xml" "$xml"
+            else
+              echo "Manifest file ${feil}.xml not found in repo."
+            fi
+            rm -rf repo_tmp
+          else
+            echo "Manifest $xml found."
+          fi
+
+          if [ -f "$xml" ]; then
+            revision_full=$(grep -oP 'revision="\K[^"]+' "$xml" | head -n1 || true)
+            if [ -n "$revision_full" ]; then
+              clean_revision=$(echo "$revision_full" | sed -r 's/_v_([0-9]+\.[0-9]+\.[0-9]+)/_Android\1/')
+              clean_feil="${feil}_${clean_revision}"
+            else
+              clean_feil="${feil}_AndroidUnknown"
+            fi
+          else
+            clean_feil="${feil}_AndroidUnknown"
+          fi
+
+          echo "value=$clean_feil" >> "$GITHUB_OUTPUT"
+
+      - name: Upload AnyKernel3
+        uses: actions/upload-artifact@v4
+        with:
+          name: AnyKernel3_SukiSUUltra_${{ env.KSUVER }}_${{ steps.feil_clean.outputs.value }}_KPM${{ steps.suffix.outputs.value }}
+          path: ./AnyKernel3/*
