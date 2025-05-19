@@ -536,7 +536,7 @@ jobs:
               clean_feil="${feil_base}_Android${android_ver}"
             else
               clean_feil="${feil_base}_AndroidUnknown"
-      fi
+            fi
           else
             clean_feil="${feil_base}_AndroidUnknown"
           fi
