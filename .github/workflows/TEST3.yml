@@ -499,31 +499,33 @@ jobs:
         id: feil_clean
         run: |
           feil="${{ github.event.inputs.FEIL }}"
+          cpu="${{ github.event.inputs.CPU }}"
           xml=".repo/manifests/${feil}.xml"
 
           if [ ! -f "$xml" ]; then
-            echo "Manifest $xml not found, downloading..."
+            echo "Manifest $xml not found, attempting to download from branch oneplus/$cpu..."
             mkdir -p .repo/manifests
-            # 这里用git拉单个manifest文件示例（你也可以用repo init同步）
-            git clone --depth=1 --branch main https://github.com/OnePlusOSS/kernel_manifest.git repo_tmp
+            git clone --depth=1 --branch oneplus/$cpu https://github.com/OnePlusOSS/kernel_manifest.git repo_tmp || {
+              echo "Failed to clone branch oneplus/$cpu"
+              exit 1
+            }
+
             if [ -f "repo_tmp/${feil}.xml" ]; then
               mv "repo_tmp/${feil}.xml" "$xml"
             else
-              echo "Manifest file ${feil}.xml not found in repo."
+              echo "Manifest file ${feil}.xml not found in branch oneplus/$cpu"
+              clean_feil="${feil}_AndroidUnknown"
+              echo "value=$clean_feil" >> "$GITHUB_OUTPUT"
+              exit 0
             fi
             rm -rf repo_tmp
-          else
-            echo "Manifest $xml found."
           fi
 
-          if [ -f "$xml" ]; then
-            revision_full=$(grep -oP 'revision="\K[^"]+' "$xml" | head -n1 || true)
-            if [ -n "$revision_full" ]; then
-              clean_revision=$(echo "$revision_full" | sed -r 's/_v_([0-9]+\.[0-9]+\.[0-9]+)/_Android\1/')
-              clean_feil="${feil}_${clean_revision}"
-            else
-              clean_feil="${feil}_AndroidUnknown"
-            fi
+          echo "Manifest $xml found."
+          revision_full=$(grep -oP 'revision="\K[^"]+' "$xml" | head -n1 || true)
+          if [ -n "$revision_full" ]; then
+            clean_revision=$(echo "$revision_full" | sed -r 's/_v_([0-9]+\.[0-9]+\.[0-9]+)/_Android\1/')
+            clean_feil="${feil}_${clean_revision}"
           else
             clean_feil="${feil}_AndroidUnknown"
           fi
