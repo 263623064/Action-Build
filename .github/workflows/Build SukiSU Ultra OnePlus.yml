@@ -4,7 +4,7 @@ on:
     inputs:
       CPU:
         type: choice
-        description: "分支"
+        description: "分支"#test
         required: true
         default: sm8550
         options:
