@@ -270,7 +270,6 @@ jobs:
             echo "正在打OGKI转换GKI补丁"
             patch -p1 -F 3 < hmbird_patch.patch
             echo "OGKI转换GKI patch完成"
-          fi
 
       - name: Apply VFS
         if: ${{ github.event.inputs.VFS == "true" }}
@@ -280,7 +279,6 @@ jobs:
             echo "正在打vfs补丁"
             patch -p1 -F 3 < syscall_hooks.patch
             echo "vfs_patch完成"
-          fi
 
       - name: Apply LZ4KD
         if: ${{ github.event.inputs.ZRAM == "true" }}
@@ -294,7 +292,6 @@ jobs:
             echo "正在打lz4k_oplus补丁"
             patch -p1 -F 3 < lz4k_oplus.patch || true
             echo 'lz4k_oplus_patch完成'
-          fi
 
       # 配置信息
       - name: Add Configuration Settings
