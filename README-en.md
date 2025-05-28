@@ -22,7 +22,7 @@ Regarding how long it takes to run, it is divided into four levels. Generally, t
 >>>3.sm8750
 
 >>`2h1min~2h22min,max:2h45min`
->>>4. Known special models: some non-C15 models
+>>>4.Known special models: some non-C15 models
 
 >>`1h22min~1h28min,max:?`
 >
