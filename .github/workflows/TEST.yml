@@ -111,6 +111,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Free up disk space
+        run: |
+          sudo apt-get clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/local/share/edge_driver
+          sudo rm -rf /usr/local/share/chromedriver
+          sudo rm -rf /usr/local/share/gecko_driver
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf /opt/az
+          sudo rm -rf /usr/lib/jvm
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /usr/share/miniconda
+          sudo rm -rf /usr/share/az_*
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/share/gradle
+          sudo rm -rf /usr/local/graalvm
+          sudo rm -rf /usr/local/.ghcup
+          sudo rm -rf /usr/local/share/powershell
+          sudo rm -rf /opt/microsoft
+          sudo rm -rf /opt/mssql-tools
+          sudo rm -rf /opt/pipx
+          sudo rm -rf /usr/share/kotlinc
+          sudo rm -rf /usr/local/cuda*
+          df -h
+
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
