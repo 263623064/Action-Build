@@ -9,6 +9,14 @@
  
 配置文件中的``_x``后缀是你正在使用系统版本的代号。比如``_w Android16、_v Android15、_u Android14、_t Android13、_sAndroid12``,以此类推-**倒序字母小写**。而无后缀的一般是一个机型的出厂``Android``版本。目前我只在预选中添加了``Android15``的机型也就是``_v``后缀,如果你在使用其他的安卓版本,请手动将``_v``改成其他代号
  
+关于要跑多久的问题,划分四档,一般来说越往前的机型跑的速度越快
+``
+1.sm8450、sm8475、sm8550 --30~35min,max:45min
+2.sm7675、sm7550、sm8650 --1h1min~1h12min,max:1h32min
+3.sm8750 --2h1min~2h22min max:2h45min
+4.特殊机型:已知的部分非C15机型:一加11(C14):1h22min~1h28min
+``
+ 
 部分设备的``lz4kd``存在问题,修复中,**跑不出来请先不要启用``ZRAM算法``**,请提前备份``boot.img``
  
 ``OnePlus Ace5Pro(ColorOS)OnePlus 13(ColorOS)``需要特殊处理并替换``dtbo.img``
