@@ -21,7 +21,7 @@
 `1h1min~1h12min,max:1h32min`
 >>3.sm8750
  
-`2h1min~2h22min max:2h45min`
+`2h1min~2h22min,max:2h45min`
 >>4.已知的特殊机型:部分非C15机型
  
 `1h22min~1h28min,max:?`
