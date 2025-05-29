@@ -30,8 +30,6 @@ on:
           - oneplus_ace2_v
           - oneplus_ace_pro_v
           - oneplus_11_v
-          - oneplus_11_u
-          - oneplus_11_t
           - oneplus_12r_v
           - oneplus_ace2pro_v
           - oneplus_ace3_v
@@ -146,10 +144,9 @@ jobs:
 
       - name: Install repo tool
         run: |
-          curl -fL https://storage.googleapis.com/git-repo-downloads/repo -o /tmp/repo
-          chmod a+x /tmp/repo
-          sudo mv /tmp/repo /usr/local/bin/repo
-          repo --version
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/repo
+          chmod a+x ~/repo
+          sudo mv ~/repo /usr/local/bin/repo
 
       - name: Initialize repo and sync
         run: |
@@ -187,7 +184,7 @@ jobs:
             kernel_platform/external/dtc/scripts/setlocalversion; do
               # 清理默认后缀
               sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-f]{7,}//'\'')' "$path"
-              # 替换 echo "$res" 为自定义后缀
+              # 替换 echo "$res" 为自定义后缀，使用 bazel 编译有特殊符号字数限制，如果出错，请减短
               sed -i "\$s|echo \"\\\$res\"|echo \"\$res-${{ github.event.inputs.SUFFIX }}\"|" "$path"
           done
           git add -A
@@ -274,7 +271,7 @@ jobs:
             wget https://github.com/Numbersf/Action-Build/raw/main/patchs/hmbird_patch.patch
             echo "正在打OGKI转换GKI补丁"
             patch -p1 -F 3 < hmbird_patch.patch
-            echo "OGKI转换GKI patch完成"
+            echo "OGKI转换GKI_patch完成"
 
       - name: Apply VFS
         if: ${{ github.event.inputs.VFS == 'true' }}
@@ -398,9 +395,6 @@ jobs:
 
       - name: Build kernel
         if: ${{ github.event.inputs.CPU == 'sm8650' || github.event.inputs.CPU == 'sm7675' }}
-        env:
-          LANG: C.UTF-8
-          LC_ALL: C.UTF-8
         run: |
           cd kernel_workspace
           ./kernel_platform/build_with_bazel.py -t ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
@@ -519,7 +513,7 @@ jobs:
           xml=".repo/manifests/${feil}.xml"
 
           if [ ! -f "$xml" ]; then
-            echo "Manifest $xml not found,This is expected behavior, not an error.Attempting to download from branch oneplus/$cpu..."
+            echo "Manifest $xml not found,This is expected behavior,not an error.Attempting to download from branch oneplus/$cpu..."
             mkdir -p .repo/manifests
             git clone --depth=1 --branch oneplus/$cpu https://github.com/OnePlusOSS/kernel_manifest.git repo_tmp || {
               echo "Failed to clone branch oneplus/$cpu"
