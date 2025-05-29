@@ -108,11 +108,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set global UTF-8 locale
-        run: |
-          echo "export LANG=en_US.UTF-8" >> $GITHUB_ENV
-          echo "export LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
-
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
@@ -123,6 +118,16 @@ jobs:
           remove-android: 'true'
           remove-haskell: 'true'
           remove-codeql: 'true'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "Numbersf"
+          git config --global user.email "263623064@qq.com"
+
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install -y python3 git curl
 
       - name: Show selected inputs debug
         run: |
@@ -136,17 +141,6 @@ jobs:
           echo "Selected SUSFS_CI: ${{ github.event.inputs.SUSFS_CI }}"
           echo "Selected VFS: ${{ github.event.inputs.VFS }}"
           echo "Selected ZRAM: ${{ github.event.inputs.ZRAM }}"
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "Numbersf"
-          git config --global user.email "263623064@qq.com"
-
-      - name: Install dependencies
-        run: |
-          sudo apt update && sudo apt upgrade -y
-          sudo apt install -y python3 git curl
-
 
       - name: Install repo tool
         run: |
