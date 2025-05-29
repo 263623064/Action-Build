@@ -145,9 +145,10 @@ jobs:
 
       - name: Install repo tool
         run: |
-          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/repo
-          chmod a+x ~/repo
-          sudo mv ~/repo /usr/local/bin/repo
+          curl -fL https://storage.googleapis.com/git-repo-downloads/repo -o /tmp/repo
+          chmod a+x /tmp/repo
+          sudo mv /tmp/repo /usr/local/bin/repo
+          repo --version
 
       - name: Initialize repo and sync
         run: |
