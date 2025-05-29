@@ -519,7 +519,7 @@ jobs:
           xml=".repo/manifests/${feil}.xml"
 
           if [ ! -f "$xml" ]; then
-            echo "Manifest $xml not found, attempting to download from branch oneplus/$cpu..."
+            echo "Manifest $xml not found,This is expected behavior, not an error.Attempting to download from branch oneplus/$cpu..."
             mkdir -p .repo/manifests
             git clone --depth=1 --branch oneplus/$cpu https://github.com/OnePlusOSS/kernel_manifest.git repo_tmp || {
               echo "Failed to clone branch oneplus/$cpu"
@@ -530,7 +530,7 @@ jobs:
             if [ -f "repo_tmp/${feil}.xml" ]; then
               mv "repo_tmp/${feil}.xml" "$xml"
             else
-              echo "Manifest file ${feil}.xml not found in branch oneplus/$cpu,This is expected behavior, not an error."
+              echo "Manifest file ${feil}.xml not found in branch oneplus/$cpu"
               echo "value=${feil}_AndroidUnknown" >> "$GITHUB_OUTPUT"
               rm -rf repo_tmp
               exit 0
