@@ -30,6 +30,7 @@ on:
           - oneplus_ace2_v
           - oneplus_ace_pro_v
           - oneplus_11_v
+          - oneplus_11_t
           - oneplus_12r_v
           - oneplus_ace2pro_v
           - oneplus_ace3_v
@@ -559,15 +560,6 @@ jobs:
           done
           fi
 
-      - name: Apply patch_linux and replace Image
-        run: |
-          cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist
-          curl -LO --retry 5 --retry-delay 2 --retry-connrefused https://raw.githubusercontent.com/Numbersf/Action-Build/main/patchs/patch_linux
-          chmod +x patch_linux
-          ./patch_linux
-          rm -f Image
-          mv oImage Image
-          cp Image $GITHUB_WORKSPACE/AnyKernel3/Image
 
       # 下载 SUSFS 模块（CI）
       - name: Download Latest SUSFS Module from CI
