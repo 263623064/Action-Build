@@ -12,32 +12,32 @@
 >配置文件中的``_x``后缀是你正在使用系统版本的代号。倒序字母小写**。而无后缀的一般是一个机型的出厂``Android``版本。目前我只在预选中添加了``Android15``的机型也就是``_v``后缀,如果你在使用其他的安卓版本,请手动将``_v``改成其他代号
 > <details>
 > <summary><strong>点击查看详细的版本代号(部分预测未来可能会有改变)</strong></summary>
->`
->>_z Android19 (Zebra Cake)  
->>_y Android18 (Yogurt Parfait)  
->>_x Android17 (Xmas Pudding)  
->>_w Android16 (Wedding Cake)  
->>_v Android15 (Vanilla Ice Cream)  
->>_u Android14 (Upside Down Cake)  
->>_t Android13 (Tiramisu)  
->>_s Android12 (Snow Cone)  
->>_r Android11 (Red Velvet Cake)  
->>_q Android10 (Quince Tart)  
->>_p Android9 (Pie)  
->>_o Android8 (Oreo)  
->>_n Android7 (Nougat)  
->>_m Android6 (Marshmallow)  
->>_l Android5 (Lollipop)  
->>_k Android4.4 (KitKat)  
->>_j Android4.3–4.1 (Jelly Bean)  
->>_i Android4.0 (Ice Cream Sandwich)  
->>_h Android3.x (Honeycomb)  
->>_g Android2.3 (Gingerbread)  
->>_f Android2.2 (FroYo)  
->>_e Android2.1 (Eclair)  
->>_d Android1.6 (Donut)  
+>
+>>_z Android19 (Zebra Cake)
+>>_y Android18 (Yogurt Parfait)
+>>_x Android17 (Xmas Pudding)
+>>_w Android16 (Wedding Cake)
+>>_v Android15 (Vanilla Ice Cream)
+>>_u Android14 (Upside Down Cake)
+>>_t Android13 (Tiramisu)
+>>_s Android12 (Snow Cone)
+>>_r Android11 (Red Velvet Cake)
+>>_q Android10 (Quince Tart)
+>>_p Android9 (Pie)
+>>_o Android8 (Oreo)
+>>_n Android7 (Nougat)
+>>_m Android6 (Marshmallow)
+>>_l Android5 (Lollipop)
+>>_k Android4.4 (KitKat)
+>>_j Android4.3–4.1 (Jelly Bean)
+>>_i Android4.0 (Ice Cream Sandwich)
+>>_h Android3.x (Honeycomb)
+>>_g Android2.3 (Gingerbread)
+>>_f Android2.2 (FroYo)
+>>_e Android2.1 (Eclair)
+>>_d Android1.6 (Donut)
 >>_c Android1.5 (Cupcake)
->`
+>
 > </details>
  
 ------
