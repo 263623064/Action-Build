@@ -25,7 +25,7 @@
 >
 >>**`_u Android14 (Upside Down Cake)`**
 >
->>**`_t Android13 (Tiramisu)`**
+>><strong>`_t Android13 (Tiramisu)`
 >
 >>**`_s Android12 (Snow Cone)`**
 >
