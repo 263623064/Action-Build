@@ -12,7 +12,6 @@
 > The `_x` suffix in the config file corresponds to the code name of your current Android system version. The codes are in reverse alphabetical order and lowercase. A config without any suffix usually refers to the device’s stock Android version. Currently, only Android 15 (`_v`) variants are preset. If you are using a different version, please manually replace `_v` with the appropriate code.
 > <details>
 > <summary><strong>Click to view the Android version codes (subject to future updates)</strong></summary>
-
 > `_z Android19 (Zebra Cake)`  
 > `_y Android18 (Yogurt Parfait)`  
 > `_x Android17 (Xmas Pudding)`  
@@ -37,7 +36,6 @@
 > `_e Android2.1 (Eclair)`  
 > `_d Android1.6 (Donut)`  
 > `_c Android1.5 (Cupcake)`
-
 > </details>
 
 ------
@@ -50,9 +48,7 @@
 > `1h12min ~ 1h17min, max: ?`  
 >> **All Other Devices**  
 > `22min ~ 31min, max: 35min`
-
 > </details>
-
 > <details>
 > <summary><strong>Click to view compile time using official build.sh</strong></summary>
 
@@ -64,7 +60,6 @@
 > `1h1min ~ 1h12min, max: 1h32min`  
 >> **sm8750**  
 > `2h1min ~ 2h22min, max: 2h45min`
-
 > </details>  
 > So, if your runtime exceeds the max time listed, try rerunning and check the `step` logs in case it's a platform issue.
 
