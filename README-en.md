@@ -12,30 +12,54 @@
 > The `_x` suffix in the config file corresponds to the code name of your current Android system version. The codes are in reverse alphabetical order and lowercase. A config without any suffix usually refers to the device’s stock Android version. Currently, only Android 15 (`_v`) variants are preset. If you are using a different version, please manually replace `_v` with the appropriate code.
 > <details>
 > <summary><strong>Click to view the Android version codes (subject to future updates)</strong></summary>
-> `_z Android19 (Zebra Cake)`  
-> `_y Android18 (Yogurt Parfait)`  
-> `_x Android17 (Xmas Pudding)`  
-> `_w Android16 (Wedding Cake)`  
-> `_v Android15 (Vanilla Ice Cream)`  
-> `_u Android14 (Upside Down Cake)`  
-> `_t Android13 (Tiramisu)`  
-> `_s Android12 (Snow Cone)`  
-> `_r Android11 (Red Velvet Cake)`  
-> `_q Android10 (Quince Tart)`  
-> `_p Android9 (Pie)`  
-> `_o Android8 (Oreo)`  
-> `_n Android7 (Nougat)`  
-> `_m Android6 (Marshmallow)`  
-> `_l Android5 (Lollipop)`  
-> `_k Android4.4 (KitKat)`  
-> `_j Android4.3–4.1 (Jelly Bean)`  
-> `_i Android4.0 (Ice Cream Sandwich)`  
-> `_h Android3.x (Honeycomb)`  
-> `_g Android2.3 (Gingerbread)`  
-> `_f Android2.2 (FroYo)`  
-> `_e Android2.1 (Eclair)`  
-> `_d Android1.6 (Donut)`  
-> `_c Android1.5 (Cupcake)`
+>`_z Android19 (Zebra Cake)`
+>
+>`_y Android18 (Yogurt Parfait)`
+>
+>`_x Android17 (Xmas Pudding)`
+>
+>`_w Android16 (Wedding Cake)`<strong>
+>
+>`_v Android15 (Vanilla Ice Cream)`
+>
+>`_u Android14 (Upside Down Cake)`
+>
+>`_t Android13 (Tiramisu)`</strong>
+>
+>`_s Android12 (Snow Cone)`
+>
+>`_r Android11 (Red Velvet Cake)`
+>
+>`_q Android10 (Quince Tart)`
+>
+>`_p Android9 (Pie)`
+>
+>`_o Android8 (Oreo)`
+>
+>`_n Android7 (Nougat)`
+>
+>`_m Android6 (Marshmallow)`
+>
+>`_l Android5 (Lollipop)`
+>
+>`_k Android4.4 (KitKat)`
+>
+>`_j Android4.3–4.1 (Jelly Bean)`
+>
+>`_i Android4.0 (Ice Cream Sandwich)`
+>
+>`_h Android3.x (Honeycomb)`
+>
+>`_g Android2.3 (Gingerbread)`
+>
+>`_f Android2.2 (FroYo)`
+>
+>`_e Android2.1 (Eclair)`
+>
+>`_d Android1.6 (Donut)`
+>
+>`_c Android1.5 (Cupcake)`
+>
 > </details>
 
 ------
@@ -43,7 +67,6 @@
 > About compile time: generally, older devices build faster.  
 > <details>
 > <summary><strong>Click to view compile time using Fast Build (clang make)</strong></summary>
-
 >> **Special Devices (non-A15 e.g., OnePlus 11-A14, A13)**  
 > `1h12min ~ 1h17min, max: ?`  
 >> **All Other Devices**  
@@ -51,7 +74,6 @@
 > </details>
 > <details>
 > <summary><strong>Click to view compile time using official build.sh</strong></summary>
-
 >> **Special Devices (non-A15 e.g., OnePlus 11-A14, A13 not supported)**  
 > `1h22min ~ 1h28min, max: ?`  
 >> **sm8450 / sm8475 / sm8550**  
