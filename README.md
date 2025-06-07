@@ -20,17 +20,15 @@
 >>`_x Android17 (Xmas Pudding)`
 >
 >>`_w Android16 (Wedding Cake)`
-> <strong>
 >
->`_v Android15 (Vanilla Ice Cream)`
+><strong>`_v Android15 (Vanilla Ice Cream)`
 >
 >>`_u Android14 (Upside Down Cake)`
 >
 >>`_t Android13 (Tiramisu)`
 >
->>`_s Android12 (Snow Cone)`
+>>`_s Android12 (Snow Cone)`</strong>
 >
-> </strong>
 >>`_r Android11 (Red Velvet Cake)`
 >
 >>`_q Android10 (Quince Tart)`
