@@ -21,7 +21,7 @@
 >
 >>`_w Android16 (Wedding Cake)`
 >
-><strong>`_v Android15 (Vanilla Ice Cream)`
+> <strong>`_v Android15 (Vanilla Ice Cream)`
 >
 >>`_u Android14 (Upside Down Cake)`
 >
