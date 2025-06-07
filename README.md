@@ -21,13 +21,13 @@
 >
 >>`_w Android16 (Wedding Cake)`
 >
->>`**_v Android15 (Vanilla Ice Cream)**`
+>>**`_v Android15 (Vanilla Ice Cream)`**
 >
->>`**_u Android14 (Upside Down Cake)**`
+>>**`_u Android14 (Upside Down Cake)`**
 >
->>`**_t Android13 (Tiramisu)**`
+>>**`_t Android13 (Tiramisu)`**
 >
->>`**_s Android12 (Snow Cone)**`
+>>**`_s Android12 (Snow Cone)`**
 >
 >>`_r Android11 (Red Velvet Cake)`
 >
