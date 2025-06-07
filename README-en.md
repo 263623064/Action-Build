@@ -12,6 +12,7 @@
 > The `_x` suffix in the config file corresponds to the code name of your current Android system version. The codes are in reverse alphabetical order and lowercase. A config without any suffix usually refers to the device’s stock Android version. Currently, only Android 15 (`_v`) variants are preset. If you are using a different version, please manually replace `_v` with the appropriate code.
 > <details>
 > <summary><strong>Click to view the Android version codes (subject to future updates)</strong></summary>
+>
 >`_z Android19 (Zebra Cake)`
 >
 >`_y Android18 (Yogurt Parfait)`
@@ -78,6 +79,7 @@
 >
 > <details>
 >><summary><strong>Click to view compile time Using official build.sh</strong></summary>
+>
 >>>>0.Known exceptions: some non-A15 models (e.g. OnePlus 11-A14;OnePlus 11-A13Not Supported)
 > 
 >>>`1h22min~1h28min,max:?`
@@ -92,6 +94,7 @@
 >>>`2h1min~2h22min,max:2h45min`
 >> 
 > </details>
+>
 > So, if your runtime exceeds the max time listed, try rerunning and check the `step` logs in case it's a platform issue.
 
 ------
