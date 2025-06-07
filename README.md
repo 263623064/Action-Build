@@ -22,9 +22,8 @@
 > 
 >>>`22min~31min,max:35min`
 > 
->>***使用官方build.sh***
-<details>
-<summary><strong>🔍 Having Issues? Click Here</strong></summary>
+>><details>
+<summary><strong>***使用官方build.sh***</strong></summary>
 >>>>0.已知的特殊机型:部分非A15机型(eg:一加11-A14;一加11-A13不支持)
 > 
 >>>`1h22min~1h28min,max:?`
@@ -38,8 +37,7 @@
 > 
 >>>`2h1min~2h22min,max:2h45min`
 >> 
->
-</details>
+></details>
 >也就是说,如果你跑的时长超过了对应机型的最高时间,请尝试重新跑并查看``step``确保不是官方自己的问题
  
 ------
