@@ -24,9 +24,9 @@
 >
 >`_u Android14 (Upside Down Cake)`
 >
->`_t Android13 (Tiramisu)`</strong>
+>`_t Android13 (Tiramisu)`
 >
->`_s Android12 (Snow Cone)`
+>`_s Android12 (Snow Cone)`</strong>
 >
 >`_r Android11 (Red Velvet Cake)`
 >
@@ -66,23 +66,32 @@
 > [!IMPORTANT]  
 > About compile time: generally, older devices build faster.  
 > <details>
-> <summary><strong>Click to view compile time using Fast Build (clang make)</strong></summary>
->> **Special Devices (non-A15 e.g., OnePlus 11-A14, A13)**  
-> `1h12min ~ 1h17min, max: ?`  
->> **All Other Devices**  
-> `22min ~ 31min, max: 35min`
+>><summary><strong>Click to view compile time Using Fast Build (clang make)</strong></summary>
+>>>>0.Known exceptions: some non-A15 models (e.g. OnePlus 11-A14;OnePlus 11-A13)
+> 
+>>>`1h12min~1h17min,max:?`
+>>>>0.All Other Devices
+> 
+>>>`22min~31min,max:35min`
+> 
 > </details>
+>
 > <details>
-> <summary><strong>Click to view compile time using official build.sh</strong></summary>
->> **Special Devices (non-A15 e.g., OnePlus 11-A14, A13 not supported)**  
-> `1h22min ~ 1h28min, max: ?`  
->> **sm8450 / sm8475 / sm8550**  
-> `30 ~ 35min, max: 45min`  
->> **sm7675 / sm7550 / sm8650**  
-> `1h1min ~ 1h12min, max: 1h32min`  
->> **sm8750**  
-> `2h1min ~ 2h22min, max: 2h45min`
-> </details>  
+>><summary><strong>Click to view compile time Using official build.sh</strong></summary>
+>>>>0.Known exceptions: some non-A15 models (e.g. OnePlus 11-A14;OnePlus 11-A13Not Supported)
+> 
+>>>`1h22min~1h28min,max:?`
+>>>>1.sm8450, sm8475, sm8550
+> 
+>>>`30~35min,max:45min`
+>>>>2.sm7675, sm7550, sm8650
+> 
+>>>`1h1min~1h12min,max:1h32min`
+>>>>3.sm8750
+> 
+>>>`2h1min~2h22min,max:2h45min`
+>> 
+> </details>
 > So, if your runtime exceeds the max time listed, try rerunning and check the `step` logs in case it's a platform issue.
 
 ------
