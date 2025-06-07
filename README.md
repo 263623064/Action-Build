@@ -15,7 +15,7 @@
 > [!IMPORTANT]
 >关于要跑多久的问题 一般来说越往前的机型跑的速度越快
 > <details>
-> <summary><strong>点击查看使用极速编译clang make用时</strong></summary>
+> <summary><strong>点击查看使用极速编译clang make的用时</strong></summary>
 >
 >>>>0.已知的特殊机型:部分非A15机型(eg:一加11-A14;一加11-A13)
 > 
@@ -26,7 +26,7 @@
 > </details>
 > 
 > <details>
-> <summary><strong>点击查看使用官方build.sh用时</strong></summary>
+> <summary><strong>点击查看使用官方build.sh的用时</strong></summary>
 >
 >>>>0.已知的特殊机型:部分非A15机型(eg:一加11-A14;一加11-A13不支持)
 > 
