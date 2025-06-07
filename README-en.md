@@ -68,7 +68,6 @@
 > About compile time: generally, older devices build faster.  
 > <details>
 >> <summary><strong>Click to view compile time Using Fast Build (clang make)</strong></summary>
->
 >>>>0.Known exceptions: some non-A15 models (e.g. OnePlus 11-A14;OnePlus 11-A13)
 > 
 >>>`1h12min~1h17min,max:?`
@@ -77,7 +76,6 @@
 >>>`22min~31min,max:35min`
 > 
 > </details>
->
 > <details>
 >> <summary><strong>Click to view compile time Using official build.sh</strong></summary>
 >
