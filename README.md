@@ -14,13 +14,16 @@
 ------
 > [!IMPORTANT]
 >关于要跑多久的问题 一般来说越往前的机型跑的速度越快
->>***使用极速编译clang make***
+> <details>
+> <summary><strong>使用极速编译clang make</strong></summary>
+>
 >>>>0.已知的特殊机型:部分非A15机型(eg:一加11-A14;一加11-A13)
 > 
 >>>`1h12min~1h17min,max:?`
 >>>>0.其他所有机型
 > 
 >>>`22min~31min,max:35min`
+> </details>
 > 
 > <details>
 > <summary><strong>使用官方build.sh</strong></summary>
