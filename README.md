@@ -24,7 +24,7 @@
 > 
 > <details>
 > <summary><strong>使用官方build.sh</strong></summary>
- 
+
 >>>>0.已知的特殊机型:部分非A15机型(eg:一加11-A14;一加11-A13不支持)
 > 
 >>>`1h22min~1h28min,max:?`
